@@ -5,7 +5,20 @@ const formidable = require('express-formidable');
 
 const { requireSignIn, isAdmin } = require('../middleware/authMiddleware')
 
-const { createProductController, getProductController, getSingleProductController, productPhotoController, deleteProductController, updateProductController, productFilterController, productCountController, productListController, searchProductController, relatedProductController } = require('../controllers/productController')
+const { 
+    createProductController, 
+    getProductController, 
+    getSingleProductController, 
+    productPhotoController, 
+    deleteProductController, 
+    updateProductController, 
+    productFilterController, 
+    productCountController, 
+    productListController, 
+    searchProductController, 
+    relatedProductController, 
+    productCategoryController
+} = require('../controllers/productController')
 
 //create-product
 router.post('/create-product', requireSignIn, isAdmin, formidable(), createProductController)
@@ -39,5 +52,8 @@ router.get('/search/:keyword', searchProductController)
 
 //similar product
 router.get('/related-product/:pid/:cid', relatedProductController)
+
+//category wise product
+router.get('/product-category/:slug', productCategoryController)
 
 module.exports = router
