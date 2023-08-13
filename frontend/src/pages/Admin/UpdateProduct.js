@@ -105,7 +105,7 @@ const UpdateProduct = () => {
                     <AdminMenu />
                 </div>
                 <div className='col-md-9'>
-                    <h1>Update Product</h1>
+                    <h1 className='text-center'>Update Product</h1>
                     <div className='m-1'>
                         <Select bordered={false} placeholder="Select a category" size='large' showSearch className='form-select mb-3' onChange={(value) => {setCategory(value)}} value={category} >
                             {categories?.map(c => (

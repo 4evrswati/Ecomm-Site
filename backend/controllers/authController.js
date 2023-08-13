@@ -181,4 +181,34 @@ const getOrdersController = async(req, res) => {
     }
 }
 
-module.exports = {createUser, loginController, forgotPasswordController, testController, updateProfileController, getOrdersController}; 
+const getAllOrdersController = async(req, res) => {
+    try {
+        const orders = await orderModel.find({}).populate("products", "-photo").populate("buyer", "name").sort({createdAt: "-1"})
+        res.json(orders)
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: 'Error while getting Orders',
+            error
+        })
+    }
+}
+
+//order-status controller
+const orderStatusController = async(req, res) => {
+    try {
+        const { orderId } = req.params;
+        const { status } = req.body;
+        const orders = await orderModel.findByIdAndUpdate(orderId, {status}, {new:true})
+        res.json(orders)
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: 'Error while Updating Order Status',
+            error
+        })
+    }
+}
+
+module.exports = {createUser, loginController, forgotPasswordController, testController, updateProfileController, getOrdersController, getAllOrdersController, orderStatusController}; 
