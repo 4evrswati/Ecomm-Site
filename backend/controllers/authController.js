@@ -1,7 +1,10 @@
 const User = require('../models/userModel');
+
 const { hashPassword, comparePassword } = require('../helper/authHelper');
 const jwt = require('jsonwebtoken');
+
 const userModel = require('../models/userModel');
+const orderModel = require('../models/orderModel')
 
 const createUser = async (req, res) => {
     try {
@@ -164,4 +167,18 @@ const updateProfileController = async(req, res) => {
     }
 }
 
-module.exports = {createUser, loginController, forgotPasswordController, testController, updateProfileController}; 
+const getOrdersController = async(req, res) => {
+    try {
+        const orders = await orderModel.find({buyer: req.user._id}).populate("products", "-photo").populate("buyer", "name")
+        res.json(orders)
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: 'Error while getting Orders',
+            error
+        })
+    }
+}
+
+module.exports = {createUser, loginController, forgotPasswordController, testController, updateProfileController, getOrdersController}; 

@@ -17,7 +17,9 @@ const {
     productListController, 
     searchProductController, 
     relatedProductController, 
-    productCategoryController
+    productCategoryController,
+    braintreeTokenController,
+    braintreePaymentController
 } = require('../controllers/productController')
 
 //create-product
@@ -55,5 +57,12 @@ router.get('/related-product/:pid/:cid', relatedProductController)
 
 //category wise product
 router.get('/product-category/:slug', productCategoryController)
+
+//payment routes 
+//token
+router.get('/braintree/token', braintreeTokenController)
+
+//payments
+router.post('/braintree/payment', requireSignIn, braintreePaymentController)
 
 module.exports = router
